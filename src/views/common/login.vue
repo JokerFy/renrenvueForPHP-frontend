@@ -8,7 +8,8 @@
         </div>
         <div class="login-main">
           <h3 class="login-title">管理员登录</h3>
-          <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" status-icon>
+          <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
+                   status-icon>
             <el-form-item prop="userName">
               <el-input v-model="dataForm.userName" placeholder="帐号"></el-input>
             </el-form-item>
@@ -37,7 +38,8 @@
 </template>
 
 <script>
-  import { getUUID } from '@/utils'
+  import {getUUID} from '@/utils'
+
   export default {
     data () {
       return {
@@ -49,13 +51,15 @@
         },
         dataRule: {
           userName: [
-            { required: true, message: '帐号不能为空', trigger: 'blur' }
+            {required: true, message: '帐号不能为空', trigger: 'blur'},
+            {min: 4, max: 20, message: '帐号长度在4-20之间', trigger: 'blur'}
           ],
           password: [
-            { required: true, message: '密码不能为空', trigger: 'blur' }
+            {required: true, message: '密码不能为空', trigger: 'blur'},
+            {min: 4, max: 20, message: '密码长度在4-20之间', trigger: 'blur'}
           ],
           captcha: [
-            { required: true, message: '验证码不能为空', trigger: 'blur' }
+            {required: true, message: '验证码不能为空', trigger: 'blur'}
           ]
         },
         captchaPath: ''
@@ -81,7 +85,7 @@
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.$cookie.set('token', data.token)
-                this.$router.replace({ name: 'home' })
+                this.$router.replace({name: 'home'})
               } else {
                 this.getCaptcha()
                 this.$message.error(data.msg)
@@ -93,7 +97,7 @@
       // 获取验证码
       getCaptcha () {
         this.dataForm.uuid = getUUID()
-        this.captchaPath = this.$http.adornUrl(`/captcha.jpg?uuid=${this.dataForm.uuid}`)
+        this.captchaPath = this.$http.adornUrl(`/sys/test?uuid=${this.dataForm.uuid}`)
       }
     }
   }
@@ -140,10 +144,10 @@
       color: #fff;
     }
     .brand-info__text {
-      margin:  0 0 22px 0;
+      margin: 0 0 22px 0;
       font-size: 48px;
       font-weight: 400;
-      text-transform : uppercase;
+      text-transform: uppercase;
     }
     .brand-info__intro {
       margin: 10px 0;
